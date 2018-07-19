@@ -1,0 +1,390 @@
+###  Functions for likelihood ratio meta-analysis R package "metalr"
+# Functions generate traditional and intrinsic confidence intervals for OR and RR
+
+# Estimating confidence intervals and intrinsic confidence intervals for odds ratio
+ici.or<-function(idata){
+  #Data: case-controls pairs. eg. c(case1_trtA,ctrl_trtA,case2_trtB,ctrl_trtB)
+  tempdata<-as.numeric(idata)
+  OR<-(tempdata[1]/tempdata[2])/(tempdata[3]/tempdata[4])
+  log.OR<-log(OR)
+  var.log.mle<-(1/tempdata[1])+(1/tempdata[2])+(1/tempdata[3])+(1/tempdata[4])
+
+  ll<-exp(log.OR-1.96*(var.log.mle^(1/2)))
+  ul<-exp(log.OR+1.96*(var.log.mle^(1/2)))
+  ci<-round(c(ll,ul),3);#ci  #the confidence limits
+
+  # the standard error of effect estimate
+  log.ll<-log(ll)
+  log.ul<-log(ul)
+  SE<-(log.ul-log.ll)/(2*1.96)
+  #var.log.mle=SE*SE; var.log.mle  # Just the same as the delta method
+
+  # support for mle vs null
+  supmle<-(log.OR^2)/(2*var.log.mle) #supmle
+
+  # ratio of variance under the null and alternative
+  vratio<-(2*var.log.mle)/(2*var.log.mle)
+
+  # log of intrinsic confidence limits
+  logHAL<-log.OR-sqrt(vratio*abs(log.OR^2-(supmle-2.99)*2*var.log.mle))
+  logHAU<-(2*log.OR)-logHAL
+  ici.ll<-exp(logHAL)
+  ici.ul<-exp(logHAU)
+  ORvec<-data.frame(OR=OR,ll.ci=ll,ul.ci=ul,ll.ici=ici.ll,ul.ici=ici.ul)
+  return(ORvec)
+}
+
+
+# Estimation RR confidence intervals and intrinsic confidence intervals
+ici.rr<-function(cases,patients,person_yrs){ #Data:vectors of group A and R respectively
+  if(length(cases)==2 & length(person_yrs)==2){
+    rate.ratio<-round((cases/person_yrs)[1]/(cases/person_yrs)[2],3)
+    log.RR<- round(log(rate.ratio),3)
+    var.log.mle<- round((1/cases[1])+(1/cases[2]),3)
+
+    ll<-exp(log.RR-1.96*(var.log.mle^(1/2)))
+    ul<-exp(log.RR+1.96*(var.log.mle^(1/2)))
+    ci<-round(c(ll,ul),3);  #the confidence limits ci
+    #1/exp(1.96)*100 # unit changes for a 95% CI is ~14% as opposed to 5% change expected
+
+    # the standard error of effect estimate
+    log.ll<-log(ll)
+    log.ul<-log(ul)
+    SE<-(log.ul-log.ll)/(2*1.96); SE
+    #var.log.mle=SE*SE; var.log.mle  # Just the same as the delta method
+
+    # support for mle vs null
+    supmle<-(log.RR^2)/(2*var.log.mle);#supmle
+
+    # ratio of variance under the null and alternative
+    vratio<-(2*var.log.mle)/(2*var.log.mle)
+
+    # log of intrinsic confidence limits
+    logHAL<-log.RR-sqrt(vratio*abs(log.RR^2-(supmle-2.99)*2*var.log.mle))
+    logHAU<-(2*log.RR)-logHAL
+    ici.ll<-exp(logHAL)
+    ici.ul<-exp(logHAU)
+    RRvec<-data.frame(RR=rate.ratio,ll.ci=ll,ul.ci=ul,ll.ici=ici.ll,ul.ici=ici.ul)
+    return(RRvec)
+  }
+  else{
+    print("Function requires cases for treatment A&B and person years for A&B")
+  }
+}
+
+
+
+### Defining the meta likelihood_ratio for odds ratio function
+# Take a dataset of 4 columns. case and control for treatment A followed
+# case and control for treatment B
+
+metalr_or<-function(idata,refval,num_iter,increm,method="random"){
+
+  if (method%in%c("random","fixed")){
+    num_study<-dim(idata)[1]
+    # Weights  for meta-analysis
+    tempdata<-idata
+    tempdata$OR<-(tempdata[,1]/tempdata[,2])/(tempdata[,3]/tempdata[,4])
+    tempdata$log.OR<-log(tempdata$OR)
+    tempdata$var.log.mle<-(1/tempdata[,1])+(1/tempdata[,2])+(1/tempdata[,3])+(1/tempdata[,4])
+
+    tempdata$wi<-1/tempdata$var.log.mle
+    tempdata$wisq<-tempdata$wi^2
+    tempdata$tisq<-tempdata$log.OR^2
+    tempdata$witisq<-tempdata$wi*tempdata$tisq
+    tempdata$witi<-tempdata$wi*tempdata$log.OR
+
+    Q<-sum(tempdata$witisq)-((sum(tempdata$witi)^2)/sum(tempdata$wi))
+    C<-sum(tempdata$wi)-(sum(tempdata$wisq)/sum(tempdata$wi))
+    recs<-num_study
+
+    # some modifications##
+    tausq<-(Q-(recs-1))/C
+    isq<-(Q-(recs-1))/Q
+
+    # For the fixed effects components
+    logLR.l<-rep(NA,num_iter)
+    logLR.r<-rep(NA,num_iter)
+
+    # For the random components
+    rlogLR.l<-matrix(rep(NA,num_iter*(num_study+1)),nrow = num_iter)
+    rlogLR.r<-matrix(rep(NA,num_iter*(num_study+1)),nrow = num_iter)
+
+
+    LH1<-rep(NA,num_iter)
+    RH1<-rep(NA,num_iter)
+
+    log.OR<-tempdata$log.OR
+    var.log.mle<-tempdata$var.log.mle
+
+    for (i in 1:num_iter) {#search the neg and positive side of the ref H1
+      loglr.l<-rep(NA,num_study)
+      loglr.r<-rep(NA,num_study)
+      rloglr.l<-rep(NA,num_study)
+      rloglr.r<-rep(NA,num_study)
+      for (s in 1:num_study) {
+        lH1<-refval-(increm*i)
+        loglr.l[s]<-((log.OR[s]^2)/(2*var.log.mle[s]))-((log.OR[s]-lH1)^2/(2*var.log.mle[s]))
+        rloglr.l[s]<-(var.log.mle[s]/(var.log.mle[s]+tausq))*loglr.l[s]
+
+        rH1<-refval+(increm*i)
+        loglr.r[s]<-((log.OR[s]^2)/(2*var.log.mle[s]))-((log.OR[s]-rH1)^2/(2*var.log.mle[s]))
+        rloglr.r[s]<-(var.log.mle[s]/(var.log.mle[s]+tausq))*loglr.r[s]
+      }
+      logLR.l[i]<-sum(loglr.l)
+      logLR.r[i]<-sum(loglr.r)
+      rlogLR.l[i,]<-c(loglr.l,sum(rloglr.l))
+      rlogLR.r[i,]<-c(loglr.r,sum(rloglr.r)) # we will search over these possible values
+      LH1[i]<-lH1
+      RH1[i]<-rH1 # lets append the values of H_alt
+    }
+    colnames(rlogLR.l)<-c(1:num_study,"total_relk")
+    colnames(rlogLR.r)<-c(1:num_study,"total_relk")
+
+    # check the function here
+    res.lk<-data.frame(H1=c(LH1,RH1), rbind(rlogLR.l,rlogLR.r),
+                       "total_felk"=c(logLR.l,logLR.r))
+    ###########
+    # Fixed Effect LR_mle values
+    felrmax<-max(res.lk$total_felk)
+    feH1<-res.lk$H1[which.max(res.lk$total_felk)]
+
+    # search for lower limit of 95% ICI and CI for the fixed effect
+    llicidata<-res.lk[res.lk$total_felk<=(felrmax-2.99)&res.lk$H1<feH1,]
+    ll_log_ici<-max(llicidata$total_felk)
+    ll_ici_H1<-exp(llicidata$H1[which.max(llicidata$total_felk)])
+
+    llcidata<-res.lk[res.lk$total_felk<=(felrmax-1.96)&res.lk$H1<feH1,]
+    ll_log_ci<-max(llcidata$total_felk)
+    ll_ci_H1<-exp(llcidata$H1[which.max(llcidata$total_felk)])
+
+
+    # search for upper limit of 95% ICI and CI
+    ulicidata<-res.lk[res.lk$total_felk<=(felrmax-2.99)&res.lk$H1>feH1,]
+    ul_log_ici<-max(ulicidata$total_felk)
+    ul_ici_H1<-exp(ulicidata$H1[which.max(ulicidata$total_felk)])
+
+    ulcidata<-res.lk[res.lk$total_felk<=(felrmax-1.96)&res.lk$H1>feH1,]
+    ul_log_ci<-max(ulcidata$total_felk)
+    ul_ci_H1<-exp(ulcidata$H1[which.max(ulcidata$total_felk)])
+
+    ## the ci and ici limits for FE
+    fixed_ci<-c(exp(feH1),ll_ci_H1,ul_ci_H1)
+    fixed_ici<-c(exp(feH1),ll_ici_H1,ul_ici_H1)
+
+
+    #############
+    # Random effect lr_mle values | relrmax
+    relrmax<-max(res.lk$total_relk)
+    reH1<-res.lk$H1[which.max(res.lk$total_relk)]
+
+    # search for lower limit of 95% ICI and CI for the random effect
+    rellicidata<-res.lk[res.lk$total_relk<=(relrmax-2.99)&res.lk$H1<reH1,]
+    rell_log_ici<-max(rellicidata$total_relk)
+    rell_ici_H1<-exp(rellicidata$H1[which.max(rellicidata$total_relk)])
+
+    rellcidata<-res.lk[res.lk$total_relk<=(relrmax-1.96)&res.lk$H1<reH1,]
+    rell_log_ci<-max(rellcidata$total_relk)
+    rell_ci_H1<-exp(rellcidata$H1[which.max(rellcidata$total_relk)])
+
+    # search for upper limit of 95% ICI and CI
+    reulicidata<-res.lk[res.lk$total_relk<=(relrmax-2.99)&res.lk$H1>reH1,]
+    reul_log_ici<-max(reulicidata$total_relk)
+    reul_ici_H1<-exp(reulicidata$H1[which.max(reulicidata$total_relk)])
+
+    reulcidata<-res.lk[res.lk$total_relk<=(relrmax-1.96)&res.lk$H1>reH1,]
+    reul_log_ci<-max(reulcidata$total_relk)
+    reul_ci_H1<-exp(reulcidata$H1[which.max(reulcidata$total_relk)])
+
+    ## the ci and ici limits for Random effects
+    rand_ci<-c(exp(reH1),rell_ci_H1,reul_ci_H1)
+    rand_ici<-c(exp(reH1),rell_ici_H1,reul_ici_H1)
+
+
+    # lets compile all the individual estimates of ci and intrinsic cis
+
+    out_effects<-data.frame(study=c(1:num_study,"Total"),MLE=rep(NA,num_study+1),
+                            llci=rep(NA,num_study+1),ulci=rep(NA,num_study+1),
+                            llici=rep(NA,num_study+1),ulici=rep(NA,num_study+1) )
+    for (k in 1:num_study) {
+      out_effects[k,2:6]<-ici.or(idata = idata[k,] )
+    }
+
+    if (method=="fixed") {
+      out_effects[num_study+1,2:6]<-c(fixed_ci,fixed_ici[2:3])
+      return(list(Total_FE=data.frame(limit=c("MLE","L95%","U95%"),CI=fixed_ci,ICI=fixed_ici),
+                  meta_result=out_effects))
+    }
+    if (method=="random") {
+      out_effects[num_study+1,2:6]<-c(rand_ci,rand_ici[2:3])
+      return(list(Total_RE=data.frame(limit=c("MLE","L95%","U95%"),CI=rand_ci,ICI=rand_ici),
+                  TauSq=tausq, Isq=isq, meta_result=out_effects))
+    }
+  }
+  else{
+    print("select a 'fixed' or 'random' effect method!")
+  }
+}
+
+
+
+
+##########################################################
+# Define the meta likelihood ratio for Rate-Ratio
+# Takes a dataset/dataframe with each row representing a study
+# six columns: case.trt.A, case.trt.B, pers.time.trt.A, pers.time.trt.B,
+# patients.A, patients.B
+
+
+metalr_rr<-function(idata,refval,num_iter,increm,method="random"){
+
+  if (method%in%c("random","fixed")){
+    num_study<-dim(idata)[1]
+
+    # Weights  for meta-analysis
+    tempdata<-idata
+    tempdata$RR<-(tempdata[,1]/tempdata[,3])/(tempdata[,2]/tempdata[,4])
+    tempdata$log.RR<-log(tempdata$RR)
+    tempdata$var.log.mle<-(1/tempdata[,1])+(1/tempdata[,2])
+
+    tempdata$wi<-1/tempdata$var.log.mle
+    tempdata$wisq<-tempdata$wi^2
+    tempdata$tisq<-tempdata$log.RR^2
+    tempdata$witisq<-tempdata$wi*tempdata$tisq
+    tempdata$witi<-tempdata$wi*tempdata$log.RR
+
+    Q<-sum(tempdata$witisq)-((sum(tempdata$witi)^2)/sum(tempdata$wi))
+    C<-sum(tempdata$wi)-(sum(tempdata$wisq)/sum(tempdata$wi))
+    recs<-num_study
+
+    # some modifications##
+    tausq<-(Q-(recs-1))/C
+    isq<-(Q-(recs-1))/Q
+
+    # For the fixed effects components
+    logLR.l<-rep(NA,num_iter)
+    logLR.r<-rep(NA,num_iter)
+
+    # For the random components
+    rlogLR.l<-matrix(rep(NA,num_iter*(num_study+1)),nrow = num_iter)
+    rlogLR.r<-matrix(rep(NA,num_iter*(num_study+1)),nrow = num_iter)
+
+
+    LH1<-rep(NA,num_iter)
+    RH1<-rep(NA,num_iter)
+
+    log.RR<-tempdata$log.RR
+    var.log.mle<-tempdata$var.log.mle
+
+    for (i in 1:num_iter) {#search the neg and positive side of the ref H1
+      loglr.l<-rep(NA,num_study)
+      loglr.r<-rep(NA,num_study)
+      rloglr.l<-rep(NA,num_study)
+      rloglr.r<-rep(NA,num_study)
+      for (s in 1:num_study) {
+        lH1<-refval-(increm*i)
+        loglr.l[s]<-((log.RR[s]^2)/(2*var.log.mle[s]))-((log.RR[s]-lH1)^2/(2*var.log.mle[s]))
+        rloglr.l[s]<-(var.log.mle[s]/(var.log.mle[s]+tausq))*loglr.l[s]
+
+        rH1<-refval+(increm*i)
+        loglr.r[s]<-((log.RR[s]^2)/(2*var.log.mle[s]))-((log.RR[s]-rH1)^2/(2*var.log.mle[s]))
+        rloglr.r[s]<-(var.log.mle[s]/(var.log.mle[s]+tausq))*loglr.r[s]
+      }
+      logLR.l[i]<-sum(loglr.l)
+      logLR.r[i]<-sum(loglr.r)
+      rlogLR.l[i,]<-c(loglr.l,sum(rloglr.l))
+      rlogLR.r[i,]<-c(loglr.r,sum(rloglr.r)) # we will search over these possible values
+      LH1[i]<-lH1
+      RH1[i]<-rH1 # lets append the values of H_alt
+    }
+    colnames(rlogLR.l)<-c(1:num_study,"total_relk")
+    colnames(rlogLR.r)<-c(1:num_study,"total_relk")
+
+    # check the function here
+    res.lk<-data.frame(H1=c(LH1,RH1), rbind(rlogLR.l,rlogLR.r),
+                       "total_felk"=c(logLR.l,logLR.r))
+    ###########
+    # Fixed Effect LR_mle values
+    felrmax<-max(res.lk$total_felk)
+    feH1<-res.lk$H1[which.max(res.lk$total_felk)]
+
+    # search for lower limit of 95% ICI and CI for the fixed effect
+    llicidata<-res.lk[res.lk$total_felk<=(felrmax-2.99)&res.lk$H1<feH1,]
+    ll_log_ici<-max(llicidata$total_felk)
+    ll_ici_H1<-exp(llicidata$H1[which.max(llicidata$total_felk)])
+
+    llcidata<-res.lk[res.lk$total_felk<=(felrmax-1.96)&res.lk$H1<feH1,]
+    ll_log_ci<-max(llcidata$total_felk)
+    ll_ci_H1<-exp(llcidata$H1[which.max(llcidata$total_felk)])
+
+
+    # search for upper limit of 95% ICI and CI
+    ulicidata<-res.lk[res.lk$total_felk<=(felrmax-2.99)&res.lk$H1>feH1,]
+    ul_log_ici<-max(ulicidata$total_felk)
+    ul_ici_H1<-exp(ulicidata$H1[which.max(ulicidata$total_felk)])
+
+    ulcidata<-res.lk[res.lk$total_felk<=(felrmax-1.96)&res.lk$H1>feH1,]
+    ul_log_ci<-max(ulcidata$total_felk)
+    ul_ci_H1<-exp(ulcidata$H1[which.max(ulcidata$total_felk)])
+
+    ## the ci and ici limits for FE
+    fixed_ci<-c(exp(feH1),ll_ci_H1,ul_ci_H1)
+    fixed_ici<-c(exp(feH1),ll_ici_H1,ul_ici_H1)
+
+    #############
+    # Random effect lr_mle values | relrmax
+    relrmax<-max(res.lk$total_relk)
+    reH1<-res.lk$H1[which.max(res.lk$total_relk)]
+
+    # search for lower limit of 95% ICI and CI for the random effect
+    rellicidata<-res.lk[res.lk$total_relk<=(relrmax-2.99)&res.lk$H1<reH1,]
+    rell_log_ici<-max(rellicidata$total_relk)
+    rell_ici_H1<-exp(rellicidata$H1[which.max(rellicidata$total_relk)])
+
+    rellcidata<-res.lk[res.lk$total_relk<=(relrmax-1.96)&res.lk$H1<reH1,]
+    rell_log_ci<-max(rellcidata$total_relk)
+    rell_ci_H1<-exp(rellcidata$H1[which.max(rellcidata$total_relk)])
+
+    # search for upper limit of 95% ICI and CI
+    reulicidata<-res.lk[res.lk$total_relk<=(relrmax-2.99)&res.lk$H1>reH1,]
+    reul_log_ici<-max(reulicidata$total_relk)
+    reul_ici_H1<-exp(reulicidata$H1[which.max(reulicidata$total_relk)])
+
+    reulcidata<-res.lk[res.lk$total_relk<=(relrmax-1.96)&res.lk$H1>reH1,]
+    reul_log_ci<-max(reulcidata$total_relk)
+    reul_ci_H1<-exp(reulcidata$H1[which.max(reulcidata$total_relk)])
+
+    ## the ci and ici limits for Random effects
+    rand_ci<-c(exp(reH1),rell_ci_H1,reul_ci_H1)
+    rand_ici<-c(exp(reH1),rell_ici_H1,reul_ici_H1)
+
+    # lets compile all the individual estimates of ci and intrinsic cis
+    cases = cbind(tempdata[,1],tempdata[,2])
+    person_yrs = cbind(tempdata[,3],tempdata[,4])
+
+    out_effects<-data.frame(study=c(1:num_study,"Total"),MLE=rep(NA,num_study+1),
+                            llci=rep(NA,num_study+1),ulci=rep(NA,num_study+1),
+                            llici=rep(NA,num_study+1),ulici=rep(NA,num_study+1) )
+    for (k in 1:num_study) {
+      out_effects[k,2:6]<-ici.rr(cases = cases[k,],person_yrs = person_yrs[k,])
+    }
+
+
+    if (method=="fixed") {
+      out_effects[num_study+1,2:6]<-c(fixed_ci,ll_ici_H1,ul_ici_H1)
+      return(list(Total_FE=data.frame(limit=c("MLE","L95%","U95%"),CI=fixed_ci,ICI=fixed_ici),
+                  meta_result=out_effects))
+    }
+    if (method=="random") {
+      out_effects[num_study+1,2:6]<-c(rand_ci,rand_ici[2:3])
+      return(list(Total_RE=data.frame(limit=c("MLE","L95%","U95%"),CI=rand_ci,ICI=rand_ici),
+                  TauSq=tausq, Isq=isq, meta_result=out_effects))
+    }
+  }
+  else{
+    print("select a 'fixed' or 'random' effect method!")
+  }
+
+}
+
+

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Lamin Juwara" />
+
+
+<title></title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore"><center>
+<h4 style="font-style:normal">
+Package ‘metalr’
+</h4>
+</center></h1>
+<h4 class="author"><em>Lamin Juwara</em></h4>
+<h4 class="date"><em><center>
+2018-07-18
+</center></em></h4>
+
+
+
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>Traditional 95% confidence intervals in updatad meta-analyses do not usually result in the expected 95% coverage because earlier meta-analyses often fail to exclude the null. Thus, a likelihood ratio based method that is independent of type 1 error as proposed by Colin R Dormuth et al, 2016 is used to adjusted confidence intervals that are more intune with reality. These “intrinsic confidence intervals”, <span class="math inline">\(\textit{i.e.}\)</span> ICI, are wider than the traditional confidence intervals.</p>
+<p>The 95% confidence intervals are actually 1/7th as likely as their corresponding confidence intervals (to be demonstrated later); this is contrary to the natural tendency of interpreting null hypothesis as being 5% or 1/20th as likely as the MLE. In order to correct this disconnect, the likelihood ratio meta analytic (LRMA) method, independent of p-values or sample size, is used.</p>
+<p>The method is implemented for estimating rate ratios and odds ratios in epidemiological studies. For example, suppose we consider the natural logarithm of rate ratio (RR) then the likelihood ratio (LR) comparing the RR under the null hypothesis (<span class="math inline">\(\mu_0 = \text{RR}_{\text{H0}} = 1.00\)</span>) vs some alternative hypothesis (<span class="math inline">\(\mu_1 = \text{RR}_{\text{HA}}\)</span>) is written as</p>
+<span class="math display">\[\begin{align*}
+\text{LR} = \exp\left(\frac{(\log RR_{MLE}-\log RR_{HA})^2}{2\sigma_{HA}^2}-\frac{(\log RR_{MLE}-\log RR_{H0})^2}{2\sigma_{H0}^2}+\log\left(\frac{\sigma_{HA}}{\sigma_{H0}}\right)\right)
+\end{align*}\]</span>
+<p>where <span class="math inline">\(\log()\)</span> denotes the natural logarithm scale. See <a href="https://www.ncbi.nlm.nih.gov/pubmed/26837056">Dormuth et al., 2016</a> for more detailed explanation of the method.</p>
+</div>
+<div id="r-package-metalr" class="section level2">
+<h2>R Package: ‘metalr’</h2>
+<p>R software package to estimate traditional and intrinsic 95% confidence intervals epidemiological measures (rate ratio and odd ratio) in observertional studies. The package includes:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>The ici.rr() Function</strong>: estimating intrinsic confidence interval for rate ratio.</p></li>
+<li><p><strong>The ici.or() Function</strong>: estimating intrinsic confidence interval for odds ratio.</p></li>
+<li><strong>The metalr_or() Function</strong>: estimating total effect estimates (odds ratio) and corresponding intrinsic confidence intervals in fixed effect and random effect meta-analysis.</li>
+<li><p><strong>The metalr_rr() Function</strong>: estimating total effect estimates (rate ratio) and corresponding intrinsic confidence intervals in fixed effect and random effect meta-analysis.</p></li>
+</ol>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>You can install the development version from GitHub with:</p>
+</div>
+<div id="example-1-caprie-trial" class="section level2">
+<h2>Example 1: CAPRIE trial</h2>
+<p>We consider the randomized control trial (RCT) of clopidogrel vs Aspirin in patients at risk of ischaemic events designed to assess the relative efficacy of clopidogrel (75mg once daily) to that of aspirin (325mg once daily) in reducing the risk of ischemic stroke, MI or vascular death.</p>
+<p>The study population includes a total of 9599 clopidogrel and 9586 aspirin patients were followed for 1 to 3 years (mean follow-up = 1.91 years), 939 primary outcome events in clopidogrel patients who were followed for a total of 17,636 person-years and 1021 events in aspirin patients followed for a total of 17,519 person-years. The data is compiled below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Clopidogrel vs Aspirin trial</span>
+cases&lt;-<span class="kw">c</span>(<span class="dv">939</span>,<span class="dv">1021</span>)
+person_yrs&lt;-<span class="kw">c</span>(<span class="dv">17636</span>,<span class="dv">17519</span>)
+patients&lt;-<span class="kw">c</span>(<span class="dv">9599</span>,<span class="dv">9586</span>)   </code></pre></div>
+<div id="the-ici.rr-function" class="section level3">
+<h3>The ici.rr() Function</h3>
+<p>The <strong>ici.rr()</strong> function calculates rate ratios and corresponding intrinsic confidence intervals in epidemiological studies. The functions provides both the traditional confidence interval and intrinsic confidence limits. This allows us to compare the two confidence limits. For example, using the dataset from caprie trial, we obtain</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(metalr)
+<span class="kw">ici.rr</span>(<span class="dt">cases =</span> cases,<span class="dt">patients =</span> patients,<span class="dt">person_yrs =</span> person_yrs)
+<span class="co">#&gt;      RR     ll.ci     ul.ci    ll.ici  ul.ici</span>
+<span class="co">#&gt; 1 0.914 0.8372322 0.9976566 0.8192534 1.01955</span></code></pre></div>
+<p>The mle of the rate ratio is 0.914, the 95% confidence limit is (0.837,0.998) and the 95% intrinsic confidence limit is (0.819,1.020).</p>
+</div>
+<div id="the-metalr_rr-function" class="section level3">
+<h3>The metalr_rr() Function</h3>
+<p>The metalr_rr() estimates total meta-analytic rate ratios and corresponding rate ratio. It allows fixed effect or random effect meta-analysis and outputs the 95% traditional confidence limits, intrinsic confidence limits and mle of the effect estimate. Further, it gives estimates a measure of heterogeneity between studies in random effect meta-analysis and <span class="math inline">\(I^2\)</span> statistics estimate.</p>
+<p>We use the toy data example provided along with the package (sample_metarr_data). That is</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(metalr)
+<span class="kw">data</span>(<span class="st">&quot;sample_metarr_data&quot;</span>)
+<span class="kw">head</span>(sample_metarr_data)
+<span class="co">#&gt;     C1   C2   PY1   PY2   N1   N2</span>
+<span class="co">#&gt; 1  939 1021 17636 17519 9599 9586</span>
+<span class="co">#&gt; 2 1099  933 19444  9999 9044 7844</span></code></pre></div>
+<p>In order to determine the total rate ratio effect in the above toy example, we have</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">metalr_rr</span>(sample_metarr_data,<span class="dt">refval=</span><span class="dv">0</span>,<span class="dt">num_iter=</span><span class="dv">3000</span>,<span class="dt">increm=</span><span class="fl">0.001</span>,<span class="dt">method=</span><span class="st">&quot;random&quot;</span>)
+<span class="co">#&gt; $Total_RE</span>
+<span class="co">#&gt;   limit        CI       ICI</span>
+<span class="co">#&gt; 1   MLE 0.7437874 0.7437874</span>
+<span class="co">#&gt; 2  L95% 0.4950978 0.4497785</span>
+<span class="co">#&gt; 3  U95% 1.1173949 1.2299826</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $TauSq</span>
+<span class="co">#&gt; [1] 0.08241624</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Isq</span>
+<span class="co">#&gt; [1] 0.9761568</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $meta_result</span>
+<span class="co">#&gt;   study       MLE      llci      ulci     llici     ulici</span>
+<span class="co">#&gt; 1     1 0.9140000 0.8372322 0.9976566 0.8192534 1.0195504</span>
+<span class="co">#&gt; 2     2 0.6060000 0.5550740 0.6614333 0.5431543 0.6759486</span>
+<span class="co">#&gt; 3 Total 0.7437874 0.4950978 1.1173949 0.4497785 1.2299826</span></code></pre></div>
+<p>The same effect estimates are obtained for individual studies and a combined total random effect estimates is also obtained. For the estimated heterogeneity index <span class="math inline">\(\tau^2 = 0.0824\)</span>, we estimate the mle of the total effect as 0.744 with the corresponding intrinsic limits (0.450,1.230).</p>
+</div>
+</div>
+<div id="example-2-statin-potency-and-acute-kidney-injury" class="section level2">
+<h2>Example 2: statin potency and acute kidney injury</h2>
+<p>To assess the association of higher potency statins on the risk of acute kidney injury (aki) compared to lower potency statins, a meta-analysis including 9 studies is conducted by CNODES. The dataset is presented below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(metalr)
+<span class="kw">data</span>(<span class="st">&quot;statindata&quot;</span>)
+statindata
+<span class="co">#&gt;   study HPcase HPcontrol LPcase LPcontrol</span>
+<span class="co">#&gt; 1    AB     99       873    158      1520</span>
+<span class="co">#&gt; 2    BC    285      2097    325      3164</span>
+<span class="co">#&gt; 3    MB     85       680     77       827</span>
+<span class="co">#&gt; 4    NS     46       371     51       527</span>
+<span class="co">#&gt; 5    ON    988      7340    793      9723</span>
+<span class="co">#&gt; 6    QC    602      5448    716      7983</span>
+<span class="co">#&gt; 7    SK     81       526     56       465</span>
+<span class="co">#&gt; 8    UK     89       755    114      1192</span>
+<span class="co">#&gt; 9    US     62       509     68       767</span></code></pre></div>
+<p>We can used the functions <strong>ici.or()</strong> and <strong>metalr_or()</strong> in the ‘metalr’ package to estimate intrinsic confidence limits for odds ratio from individual studies and compute to effect estimates from meta-analysis respectively. To demonstate usage of the functions, we have</p>
+<div id="the-ici.or-function" class="section level3">
+<h3>The ici.or() Function</h3>
+<p>The <strong>ici.or()</strong> function calculates odds ratio and corresponding intrinsic confidence intervals in observational studies. The functions provides both the traditional confidence interval and intrinsic confidence limits. For example, the estimates obtained from QC is presented.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ici.or</span>(<span class="dt">idata =</span> statindata[<span class="dv">6</span>,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>])
+<span class="co">#&gt;         OR   ll.ci    ul.ci   ll.ici   ul.ici</span>
+<span class="co">#&gt; 1 1.232005 1.09957 1.380391 1.069033 1.419821</span></code></pre></div>
+<p>The mle of the odds ratio is 1.232, the 95% confidence limit is (1.099,1.380) and the 95% intrinsic confidence limit is (1.069,1.419).</p>
+</div>
+<div id="the-metalr_or-function" class="section level3">
+<h3>The metalr_or() Function</h3>
+<p>The metalr_or() estimates total effects (odds ratio) from fixed or random effect meta-analysis as well as the corresponding intrinsic confidence limits. It also computes the 95% traditional confidence limits and the mle of the effect estimate. Further, it gives estimates a measure of heterogeneity between studies in random effect meta-analysis and <span class="math inline">\(I^2\)</span> statistics estimate.</p>
+<p>Below, we use the statin and aki dataset to compute total fixed effect meta-analysis estimates.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">metalr_rr</span>(statindata[,<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>],<span class="dt">refval=</span><span class="dv">0</span>,<span class="dt">num_iter=</span><span class="dv">3000</span>,<span class="dt">increm=</span><span class="fl">0.001</span>,<span class="dt">method=</span><span class="st">&quot;fixed&quot;</span>)
+<span class="co">#&gt; $Total_FE</span>
+<span class="co">#&gt;   limit       CI      ICI</span>
+<span class="co">#&gt; 1   MLE 1.409169 1.409169</span>
+<span class="co">#&gt; 2  L95% 1.348510 1.335092</span>
+<span class="co">#&gt; 3  U95% 1.472556 1.487356</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $meta_result</span>
+<span class="co">#&gt;    study      MLE      llci     ulci     llici    ulici</span>
+<span class="co">#&gt; 1      1 1.091000 0.8881927 1.339862 0.8441069 1.409840</span>
+<span class="co">#&gt; 2      2 1.323000 1.1688715 1.497746 1.1335327 1.544439</span>
+<span class="co">#&gt; 3      3 1.343000 1.0741457 1.679463 1.0163127 1.775033</span>
+<span class="co">#&gt; 4      4 1.281000 0.9458778 1.736101 0.8773578 1.871687</span>
+<span class="co">#&gt; 5      5 1.650000 1.5511853 1.755898 1.5275567 1.783059</span>
+<span class="co">#&gt; 6      6 1.232000 1.1290156 1.345350 1.1047712 1.374874</span>
+<span class="co">#&gt; 7      7 1.279000 1.0141894 1.612701 0.9575818 1.708036</span>
+<span class="co">#&gt; 8      8 1.233000 0.9856299 1.541066 0.9325627 1.628760</span>
+<span class="co">#&gt; 9      9 1.374000 1.0565812 1.787757 0.9899653 1.908057</span>
+<span class="co">#&gt; 10 Total 1.409169 1.3485096 1.472556 1.3350917 1.487356</span></code></pre></div>
+<p>Similarly, total random effects could be estimated as shown with the metalr_rr() function. We note that in both icc.or() and metalr_or() functions, the input dataframe is required to have 4 columns (excluding the study) as shown in the statin dataset above.</p>
+</div>
+</div>
+<div id="reference" class="section level2">
+<h2>Reference</h2>
+<ol style="list-style-type: decimal">
+<li>Dormuth, Colin R., Kristian B. Filion, and Robert W. Platt. “Likelihood ratio meta-analysis: New motivation and approach for an old method.” Contemporary clinical trials 47 (2016): 259-265.</li>
+</ol>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
