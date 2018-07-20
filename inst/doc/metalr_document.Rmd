@@ -1,6 +1,6 @@
 ---
 title: <center> <h4 style="font-style:normal"> Package 'metalr'</h4> </center>
-author: "Lamin Juwara"
+#author: "Lamin Juwara"
 date: <center>`r Sys.Date()`</center>
 output: rmarkdown::html_vignette
 vignette: >
