@@ -72,14 +72,14 @@ Package ‘metalr’
 </h4>
 </center></h1>
 <h4 class="date"><em><center>
-2018-07-20
+2018-07-21
 </center></em></h4>
 
 
 
 <div id="background" class="section level2">
 <h2>Background</h2>
-<p>Traditional 95% confidence intervals in updatad meta-analyses do not usually result in the expected 95% coverage because earlier meta-analyses often fail to exclude the null. Thus, a likelihood ratio based method that is independent of type 1 error as proposed by Colin R Dormuth et al, 2016 is used to adjusted confidence intervals that are more intune with reality. These “intrinsic confidence intervals”, <span class="math inline">\(\textit{i.e.}\)</span> ICI, are wider than the traditional confidence intervals.</p>
+<p>Traditional 95% confidence intervals in updatad meta-analyses do not usually result in the expected 95% coverage because earlier meta-analyses often fail to exclude the null. Thus, a likelihood ratio based method that is independent of type 1 error as proposed by <a href="https://www.ncbi.nlm.nih.gov/pubmed/26837056">Dormuth et al, 2016</a> is used to adjusted confidence intervals that are more intune with reality. These “intrinsic confidence intervals”, <em>i.e.</em> ICI, are wider than the traditional confidence intervals.</p>
 <p>The 95% confidence intervals are actually 1/7th as likely as their corresponding confidence intervals (to be demonstrated later); this is contrary to the natural tendency of interpreting null hypothesis as being 5% or 1/20th as likely as the MLE. In order to correct this disconnect, the likelihood ratio meta analytic (LRMA) method, independent of p-values or sample size, is used.</p>
 <p>The method is implemented for estimating rate ratios and odds ratios in epidemiological studies. For example, suppose we consider the natural logarithm of rate ratio (RR) then the likelihood ratio (LR) comparing the RR under the null hypothesis (<span class="math inline">\(\mu_0 = \text{RR}_{\text{H0}} = 1.00\)</span>) vs some alternative hypothesis (<span class="math inline">\(\mu_1 = \text{RR}_{\text{HA}}\)</span>) is written as</p>
 <span class="math display">\[\begin{align*}
