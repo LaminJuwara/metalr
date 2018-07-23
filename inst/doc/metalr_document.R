@@ -34,5 +34,13 @@ statindata
 ici.or(idata = statindata[6,2:5])
 
 ## ---- fig.show='hold'----------------------------------------------------
-metalr_rr(statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method="fixed")
+metalr_or(statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method="fixed")
+
+## ---- fig.show='hold',fig.align="center",fig.height=3.2, fig.width=5.5----
+# the metalr object
+library(forestplot)
+metalr_obj<-metalr_or(idata=statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method = "random")
+
+# forest plot of the metalr object
+forest_metalr(metalr_obj)
 

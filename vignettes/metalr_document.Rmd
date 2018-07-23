@@ -39,7 +39,12 @@ R software package to estimate traditional and intrinsic 95% confidence interval
 2. **The ici.or() Function**: estimating intrinsic confidence interval for odds ratio.
 
 3. **The metalr_or() Function**: estimating total effect estimates (odds ratio) and corresponding intrinsic confidence intervals  in fixed effect and random effect meta-analysis.
+
 4. **The metalr_rr() Function**: estimating total effect estimates (rate ratio) and corresponding intrinsic confidence intervals  in fixed effect and random effect meta-analysis.
+
+5. **The forest_metalr() Function**: returns a forest plot of the likelihood ratio meta-analysis results. The plot compares the 95% tranditional CIs and 95% Intrinsic CIs.
+
+
 
 ## Installation
 
@@ -122,10 +127,25 @@ The metalr_or() estimates total effects (odds ratio) from fixed or random effect
 Below, we use the statin and aki dataset to compute total fixed effect meta-analysis estimates.
 
 ```{r, fig.show='hold'}
-metalr_rr(statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method="fixed")
+metalr_or(statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method="fixed")
 ```
 
-Similarly, total random effects could be estimated as shown with the metalr_rr() function. We note that in both icc.or() and metalr_or() functions, the input dataframe is required to have 4 columns (excluding the study) as shown in the statin dataset above.
+Similarly, total random effects could be estimated as shown with the metalr_or() function. We note that in both icc.or() and metalr_or() functions, the input dataframe is required to have 4 columns (excluding the study) as shown in the statin dataset above.
+
+### The forest_metalr() Function
+
+The forest_metalr() plots 95% CIs and ICIs for odds ratios or ratios from a likelihood ratio meta-analysis object. Thus, we can compare confidence limits of individuals studies as well as that of their combined effects to corresponding intrinsic confidence limits.
+
+Below, we use the statin and aki dataset to plot the confidence limits obtained in the meta_or() analysis above
+
+```{r, fig.show='hold',fig.align="center",fig.height=3.2, fig.width=5.5}
+# the metalr object
+library(forestplot)
+metalr_obj<-metalr_or(idata=statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method = "random")
+
+# forest plot of the metalr object
+forest_metalr(metalr_obj)
+```
 
 
 ## Reference

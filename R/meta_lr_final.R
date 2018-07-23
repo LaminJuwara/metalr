@@ -384,7 +384,42 @@ metalr_rr<-function(idata,refval,num_iter,increm,method="random"){
   else{
     print("select a 'fixed' or 'random' effect method!")
   }
-
 }
 
+
+##############################################
+
+# Adding a forrest plot option to the metalr object
+# if(class(data) != "matrix"){
+#   stop("You did not supply the data as a matrix. Please supply your data as a matrix.")
+# }
+#library(forestplot)
+#devtools::use_package("forestplot")
+
+
+forest_metalr<-function(metalr_obj){
+  #devtools::use_package("forestplot")
+  #library(forestplot)
+  metalr_obj_conf<-as.data.frame(metalr_obj$meta_result,row.names = NULL)
+  row_names<-as.character(metalr_obj_conf$study)
+  mle<-metalr_obj_conf$MLE
+  lowerci<-metalr_obj_conf$llci
+  upperci<-lw<-metalr_obj_conf$ulci
+  lowerici<-lw<-metalr_obj_conf$llici
+  upperici<-metalr_obj_conf$ulici
+  metalr_plot<-forestplot::forestplot(labeltext=row_names,
+                            mean=cbind(mle,mle),
+                            lower=cbind(lowerci,lowerici),
+                            upper=cbind(upperci,upperici),
+                            txt_gp=forestplot::fpTxtGp(label=grid::gpar(cex=1.0),
+                                           ticks=grid::gpar(cex=c(.9)),
+                                           xlab=grid::gpar(cex = 0.8),
+                                           title=grid::gpar(cex = 0.8)),
+                            col=forestplot::fpColors(box=c("darkred","blue"), lines=c("red","blue"), zero = "gray50"),
+                            zero=1, cex=0.9, lineheight = "auto", boxsize=0.2, colgap=grid::unit(3,"mm"),
+                            lwd.ci=2, ci.vertices=TRUE, ci.vertices.height = 0.2,lty.ci = c(1, 2),
+                            xlab = "Effect Estimate",  clip =c(-1.125, 3.75),
+                            title = "LRMA meta-analysis. Solid bars denote 95% CIs and dashed bars denote 95% ICIs")
+  return(metalr_plot)
+}
 
