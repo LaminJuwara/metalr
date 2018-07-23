@@ -5,7 +5,8 @@ knitr::opts_chunk$set(
 )
 
 ## ---- fig.show='hold'----------------------------------------------------
-
+library(devtools)
+devtools::install_github("cnodes/metalr")
 
 ## ---- fig.show='hold'----------------------------------------------------
 # Clopidogrel vs Aspirin trial
@@ -38,7 +39,7 @@ metalr_or(statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method="fixed")
 
 ## ---- fig.show='hold',fig.align="center",fig.height=3.2, fig.width=5.5----
 # the metalr object
-library(forestplot)
+library(metalr)
 metalr_obj<-metalr_or(idata=statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method = "random")
 
 # forest plot of the metalr object
