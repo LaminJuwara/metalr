@@ -16,6 +16,6 @@ Collate:
     'meta_lr_final.R'
     'data.R'
 RoxygenNote: 6.0.1
-Imports:forestplot,grid
+Imports:forestplot,grid,devtools
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr

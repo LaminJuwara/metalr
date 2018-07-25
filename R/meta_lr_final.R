@@ -1,9 +1,22 @@
 ###  Functions for likelihood ratio meta-analysis R package "metalr"
-# Functions generate traditional and intrinsic confidence intervals for OR and RR
+#    to generate traditional and intrinsic confidence intervals for odds ratio (OR) and rate ratio (RR)
 
 # Estimating confidence intervals and intrinsic confidence intervals for odds ratio
 ici.or<-function(idata){
   #Data: case-controls pairs. eg. c(case1_trtA,ctrl_trtA,case2_trtB,ctrl_trtB)
+
+  # Warning messages for incorrect entries...
+  if(class(idata) != "data.frame"){
+    stop("You did not supply the data as a dataframe. Please supply your data as a dataframe.")
+  }
+  if(ncol(idata) > 4){
+    warning("The number of columns is greater than 4. Only columns 1-4 of the imputed dataset are used. ")
+  }
+  for (col in 1:4) {
+    if(class(idata[,col])!="numeric")
+      stop("Columns 1-4 contain non numeric entries. Please enter numeric values.")
+  }
+
   tempdata<-as.numeric(idata)
   OR<-(tempdata[1]/tempdata[2])/(tempdata[3]/tempdata[4])
   log.OR<-log(OR)
@@ -36,7 +49,14 @@ ici.or<-function(idata){
 
 
 # Estimation RR confidence intervals and intrinsic confidence intervals
-ici.rr<-function(cases,patients,person_yrs){ #Data:vectors of group A and R respectively
+ici.rr<-function(cases,patients,person_yrs){
+  #Data:vectors of group A and R respectively
+
+  # Warning messages for incorrect entries...
+  if(class(cases)!="numeric" | class(person_yrs)!="numeric" ){
+    stop("cases and person-years contain non-numeric entries. Please enter numeric values.")
+  }
+
   if(length(cases)==2 & length(person_yrs)==2){
     rate.ratio<-round((cases/person_yrs)[1]/(cases/person_yrs)[2],3)
     log.RR<- round(log(rate.ratio),3)
@@ -79,6 +99,29 @@ ici.rr<-function(cases,patients,person_yrs){ #Data:vectors of group A and R resp
 # case and control for treatment B
 
 metalr_or<-function(idata,refval,num_iter,increm,method="random"){
+
+  if(class(idata) != "data.frame"){
+    stop("You did not supply the data as a dataframe. Please supply your data as a dataframe.")
+  }
+  if(ncol(idata) > 4){
+    warning("The number of columns is greater than 4. Only columns 1-4 of the imputed dataset are used. ")
+  }
+  for (col in 1:4) {
+    if(class(idata[,col])!="numeric")
+      stop("Columns 1-4 contain non numeric entries. Please enter numeric values.")
+  }
+
+  if(class(refval) != "numeric" | length(refval)!= 1){
+    stop("Please enter a single numeric entry for the 'refval' ")
+  }
+
+  if(class(num_iter) != "numeric" | length(num_iter)!= 1){
+    stop("Please enter a single numeric entry for the number of iterations 'num_iter' ")
+  }
+
+  if(class(increm) != "numeric" | length(increm)!= 1){
+    stop("Please enter a single numeric entry for the number of increments 'increm' ")
+  }
 
   if (method%in%c("random","fixed")){
     num_study<-dim(idata)[1]
@@ -222,7 +265,7 @@ metalr_or<-function(idata,refval,num_iter,increm,method="random"){
     }
   }
   else{
-    print("select a 'fixed' or 'random' effect method!")
+    print("Please select a 'fixed' or 'random' effect method")
   }
 }
 
@@ -233,10 +276,35 @@ metalr_or<-function(idata,refval,num_iter,increm,method="random"){
 # Define the meta likelihood ratio for Rate-Ratio
 # Takes a dataset/dataframe with each row representing a study
 # six columns: case.trt.A, case.trt.B, pers.time.trt.A, pers.time.trt.B,
-# patients.A, patients.B
+# patients.A, patients.B... see sampledataset
 
 
 metalr_rr<-function(idata,refval,num_iter,increm,method="random"){
+
+  # error and warning messages
+  if(class(idata) != "data.frame"){
+    stop("You did not supply the data as a dataframe. Please supply your data as a dataframe.")
+  }
+  if(ncol(idata) > 4){
+    warning("The number of columns is greater than 4. Only columns 1-4 of the imputed dataset are used. ")
+  }
+  for (col in 1:4) {
+    if(class(idata[,col])!="numeric")
+      stop("Columns 1-4 contain non numeric entries. Please enter numeric values.")
+  }
+
+  if(class(refval) != "numeric" | length(refval)!= 1){
+    stop("Please enter a single numeric entry for the 'refval' ")
+  }
+
+  if(class(num_iter) != "numeric" | length(num_iter)!= 1){
+    stop("Please enter a single numeric entry for the number of iterations 'num_iter' ")
+  }
+
+  if(class(increm) != "numeric" | length(increm)!= 1){
+    stop("Please enter a single numeric entry for the number of increments 'increm' ")
+  }
+
 
   if (method%in%c("random","fixed")){
     num_study<-dim(idata)[1]
