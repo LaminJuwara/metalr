@@ -5,16 +5,12 @@
 ici.or<-function(idata){
   #Data: case-controls pairs. eg. c(case1_trtA,ctrl_trtA,case2_trtB,ctrl_trtB)
 
-  # Warning messages for incorrect entries...
-  if(class(idata) != "data.frame"){
-    stop("You did not supply the data as a dataframe. Please supply your data as a dataframe.")
+  # Warning messages
+  if(length(idata)<4){
+    stop("The number of columns is less than 4. Please enter a vector of length 4. ")
   }
-  if(ncol(idata) > 4){
+  if(length(idata)>4){
     warning("The number of columns is greater than 4. Only columns 1-4 of the imputed dataset are used. ")
-  }
-  for (col in 1:4) {
-    if(class(idata[,col])!="numeric")
-      stop("Columns 1-4 contain non numeric entries. Please enter numeric values.")
   }
 
   tempdata<-as.numeric(idata)
