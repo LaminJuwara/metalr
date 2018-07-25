@@ -30,7 +30,7 @@ In the [online vignette](https://github.com/LaminJuwara/metalr/blob/master/inst/
 
 ## Contact
 
-* Pull Requests: <https://github.com/laminjuwara/metalr/>
+* Pull Requests: <https://github.com/cnodes/metalr/>
 * e-mail: <lamin.juwara@mail.mcgill.ca>
 
 
