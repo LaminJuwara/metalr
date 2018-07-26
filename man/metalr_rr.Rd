@@ -20,15 +20,15 @@ treatment B, person time for treatment A and person time for treatment B.}
 \item{method}{The meta-analytic method i.e. fixed or random effect method.}
 }
 \value{
-Total_RE A dataframe of total effect estimate from meta analysis,
+Total_RE : A dataframe of total effect estimate from meta analysis,
  the 95\% CIs and intrinsic CIs.
 
-Tausq Measure of heterogeneity between the studies used in the
+Tausq : Measure of heterogeneity between the studies used in the
 meta-analysis in random effect meta-analysis.
 
-Isq The I^2 statistics
+Isq : The I^2 statistics
 
-meta_results  Dataframe effect estimates from all the studies,
+meta_results : Dataframe effect estimates from all the studies,
  the 95\% confidence limits and the 95\% intrinsic confidence limits.
 }
 \description{

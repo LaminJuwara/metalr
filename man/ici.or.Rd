@@ -11,15 +11,15 @@ ici.or(idata)
 cases for treatment B and control for treatment B.}
 }
 \value{
-OR MLE estimate of the odds ratio
+OR : MLE estimate of the odds ratio
 
-llci Lower 95\% traditional confidence limit
+llci : Lower 95\% traditional confidence limit
 
-ulci Upper 95\% traditional confidence limit
+ulci : Upper 95\% traditional confidence limit
 
-llici Lower 95\% intrinsic confidence limit
+llici : Lower 95\% intrinsic confidence limit
 
-ulici Upper 95\% intrinsic confidence limit
+ulici : Upper 95\% intrinsic confidence limit
 }
 \description{
 Calculates traditional and intrinsic confidence intervals for

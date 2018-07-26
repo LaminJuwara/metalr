@@ -12,11 +12,11 @@
 #' @param idata Vector of length 4: cases for treatment A, controls for treatment A,
 #'  cases for treatment B and control for treatment B.
 #'
-#' @return OR MLE estimate of the odds ratio
-#' @return llci Lower 95\% traditional confidence limit
-#' @return ulci Upper 95\% traditional confidence limit
-#' @return llici Lower 95\% intrinsic confidence limit
-#' @return ulici Upper 95\% intrinsic confidence limit
+#' @return OR : MLE estimate of the odds ratio
+#' @return llci : Lower 95\% traditional confidence limit
+#' @return ulci : Upper 95\% traditional confidence limit
+#' @return llici : Lower 95\% intrinsic confidence limit
+#' @return ulici : Upper 95\% intrinsic confidence limit
 #'
 #' @references Dormuth, Colin R., Kristian B. Filion, and Robert W.
 #' Platt. "Likelihood ratio meta-analysis: New motivation and approach
@@ -84,11 +84,11 @@ ici.or<-function(idata){
 #' @param patients The total number of individuals in the study
 #' @param person_yrs The amount of time the patients were followed during the study
 #'
-#' @return RR MLE estimate of the rates ratio
-#' @return llci Lower 95\% traditional confidence limit
-#' @return ulci Upper 95\% traditional confidence limit
-#' @return llici Lower 95\% intrinsic confidence limit
-#' @return ulici Upper 95\% intrinsic confidence limit
+#' @return RR MLE : estimate of the rates ratio
+#' @return llci : Lower 95\% traditional confidence limit
+#' @return ulci : Upper 95\% traditional confidence limit
+#' @return llici : Lower 95\% intrinsic confidence limit
+#' @return ulici : Upper 95\% intrinsic confidence limit
 #'
 #' @references Dormuth, Colin R., Kristian B. Filion, and Robert W.
 #' Platt. "Likelihood ratio meta-analysis: New motivation and approach
@@ -393,12 +393,12 @@ metalr_or<-function(idata,refval,num_iter,increm,method="random"){
 #'  It also returns an estimate of heterogeneity accross studies as well as
 #'  Isq statistics in random meta-analysis.
 #'
-#' @return Total_RE A dataframe of total effect estimate from meta analysis,
+#' @return Total_RE : A dataframe of total effect estimate from meta analysis,
 #'  the 95\% CIs and intrinsic CIs.
-#' @return  Tausq Measure of heterogeneity between the studies used in the
+#' @return  Tausq : Measure of heterogeneity between the studies used in the
 #' meta-analysis in random effect meta-analysis.
-#' @return Isq The I^2 statistics
-#' @return meta_results  Dataframe effect estimates from all the studies,
+#' @return Isq : The I^2 statistics
+#' @return meta_results : Dataframe effect estimates from all the studies,
 #'  the 95\% confidence limits and the 95\% intrinsic confidence limits.
 #'
 #'

@@ -14,15 +14,15 @@ ici.rr(cases, patients, person_yrs)
 \item{person_yrs}{The amount of time the patients were followed during the study}
 }
 \value{
-RR MLE estimate of the rates ratio
+RR MLE : estimate of the rates ratio
 
-llci Lower 95\% traditional confidence limit
+llci : Lower 95\% traditional confidence limit
 
-ulci Upper 95\% traditional confidence limit
+ulci : Upper 95\% traditional confidence limit
 
-llici Lower 95\% intrinsic confidence limit
+llici : Lower 95\% intrinsic confidence limit
 
-ulici Upper 95\% intrinsic confidence limit
+ulici : Upper 95\% intrinsic confidence limit
 }
 \description{
 Calculates 95\% traditional confidence limits and 95\% intrinsic confidence
