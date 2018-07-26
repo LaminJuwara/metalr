@@ -6,7 +6,7 @@ knitr::opts_chunk$set(
 
 ## ---- fig.show='hold'----------------------------------------------------
 library(devtools)
-devtools::install_github("cnodes/metalr")
+devtools::install_github("laminjuwara/metalr")
 
 ## ---- fig.show='hold'----------------------------------------------------
 # Clopidogrel vs Aspirin trial

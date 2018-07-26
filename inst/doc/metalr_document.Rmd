@@ -48,11 +48,11 @@ R software package to estimate traditional and intrinsic 95% confidence interval
 
 ## Installation
 
-You can install the development version from GitHub with:
+You can install the development version from Github with:
 
 ```{r, fig.show='hold'}
 library(devtools)
-devtools::install_github("cnodes/metalr")
+devtools::install_github("laminjuwara/metalr")
 ```
 
 

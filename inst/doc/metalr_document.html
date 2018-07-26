@@ -72,7 +72,7 @@ Package ‘metalr’
 </h4>
 </center></h1>
 <h4 class="date"><em><center>
-2018-07-24
+2018-07-26
 </center></em></h4>
 
 
@@ -100,15 +100,15 @@ Package ‘metalr’
 </div>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
-<p>You can install the development version from GitHub with:</p>
+<p>You can install the development version from Github with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;cnodes/metalr&quot;</span>)
-<span class="co">#&gt; Downloading GitHub repo cnodes/metalr@master</span>
-<span class="co">#&gt; from URL https://api.github.com/repos/cnodes/metalr/zipball/master</span>
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;laminjuwara/metalr&quot;</span>)
+<span class="co">#&gt; Downloading GitHub repo laminjuwara/metalr@master</span>
+<span class="co">#&gt; from URL https://api.github.com/repos/laminjuwara/metalr/zipball/master</span>
 <span class="co">#&gt; Installing metalr</span>
 <span class="co">#&gt; '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \</span>
 <span class="co">#&gt;   --quiet CMD INSTALL  \</span>
-<span class="co">#&gt;   '/tmp/RtmpjpkQrF/devtoolsfbe66e6b8b9/cnodes-metalr-e90c848'  \</span>
+<span class="co">#&gt;   '/tmp/Rtmp5wH0g0/devtools6c8e446ba4b9/LaminJuwara-metalr-a232297'  \</span>
 <span class="co">#&gt;   --library='/home/laminj/R/x86_64-pc-linux-gnu-library/3.4'  \</span>
 <span class="co">#&gt;   --install-tests</span>
 <span class="co">#&gt; </span>
@@ -143,6 +143,9 @@ patients&lt;-<span class="kw">c</span>(<span class="dv">9599</span>,<span class=
 <span class="co">#&gt; 2 1099  933 19444  9999 9044 7844</span></code></pre></div>
 <p>In order to determine the total rate ratio effect in the above toy example, we have</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">metalr_rr</span>(sample_metarr_data,<span class="dt">refval=</span><span class="dv">0</span>,<span class="dt">num_iter=</span><span class="dv">3000</span>,<span class="dt">increm=</span><span class="fl">0.001</span>,<span class="dt">method=</span><span class="st">&quot;random&quot;</span>)
+<span class="co">#&gt; Warning in metalr_rr(sample_metarr_data, refval = 0, num_iter = 3000,</span>
+<span class="co">#&gt; increm = 0.001, : The number of columns is greater than 4. Only columns 1-4</span>
+<span class="co">#&gt; of the imputed dataset are used.</span>
 <span class="co">#&gt; $Total_RE</span>
 <span class="co">#&gt;   limit        CI       ICI</span>
 <span class="co">#&gt; 1   MLE 0.7437874 0.7437874</span>
