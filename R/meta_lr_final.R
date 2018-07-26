@@ -1,7 +1,38 @@
 ###  Functions for likelihood ratio meta-analysis R package "metalr"
-#    to generate traditional and intrinsic confidence intervals for odds ratio (OR) and rate ratio (RR)
+###  to generate traditional and intrinsic confidence intervals for
+###  odds ratio (OR) and rate ratio (RR)
+##########################################################################
 
-# Estimating confidence intervals and intrinsic confidence intervals for odds ratio
+
+#' 95\% Intrinsic Confidence Interval (ICI) for Odds Ratio (OR) in observational studies.
+#'
+#' @description Calculates traditional and intrinsic confidence intervals for
+#'  odds ratio from an observational study.
+#'
+#' @param idata Vector of length 4: cases for treatment A, controls for treatment A,
+#'  cases for treatment B and control for treatment B.
+#'
+#' @return OR MLE estimate of the odds ratio
+#' @return llci Lower 95\% traditional confidence limit
+#' @return ulci Upper 95\% traditional confidence limit
+#' @return llici Lower 95\% intrinsic confidence limit
+#' @return ulici Upper 95\% intrinsic confidence limit
+#'
+#' @references Dormuth, Colin R., Kristian B. Filion, and Robert W.
+#' Platt. "Likelihood ratio meta-analysis: New motivation and approach
+#'  for an old method." Contemporary clinical trials 47 (2016): 259-265.
+#'
+#' @examples
+#' \dontrun{
+#' data("statindata") # statin potency and acute kidney injury data
+#' ici.or(idata = statindata[1,2:5]) # ICI for study
+#' }
+#'
+#' @keywords Likelihood-ratio
+#' @keywords ICIs
+#' @keywords Meta-analysis
+#'
+#' @export
 ici.or<-function(idata){
   #Data: case-controls pairs. eg. c(case1_trtA,ctrl_trtA,case2_trtB,ctrl_trtB)
 
@@ -44,7 +75,38 @@ ici.or<-function(idata){
 }
 
 
-# Estimation RR confidence intervals and intrinsic confidence intervals
+#' 95\% Intrinsic confidence intervals for Rate Ratios (RR) in epidemiological studies.
+#'
+#' @description Calculates 95\% traditional confidence limits and 95\% intrinsic confidence
+#' intervals for rate ratio from epidemiological studies.
+#'
+#' @param cases The number of individuals affected by the condition
+#' @param patients The total number of individuals in the study
+#' @param person_yrs The amount of time the patients were followed during the study
+#'
+#' @return RR MLE estimate of the rates ratio
+#' @return llci Lower 95\% traditional confidence limit
+#' @return ulci Upper 95\% traditional confidence limit
+#' @return llici Lower 95\% intrinsic confidence limit
+#' @return ulici Upper 95\% intrinsic confidence limit
+#'
+#' @references Dormuth, Colin R., Kristian B. Filion, and Robert W.
+#' Platt. "Likelihood ratio meta-analysis: New motivation and approach
+#'  for an old method." Contemporary clinical trials 47 (2016): 259-265.
+#'
+#' @examples
+#' \dontrun{
+#' # Clopidogrel vs Aspirin trial dataset
+#' cases<-c(939,1021)
+#' person_yrs<-c(17636,17519)
+#' patients<-c(9599,9586)
+#' ici.rr(cases, patients, person_yrs)
+#' }
+#'
+#' @keywords Likelihood-ratio
+#' @keywords Meta-analysis
+#'
+#' @export
 ici.rr<-function(cases,patients,person_yrs){
   #Data:vectors of group A and R respectively
 
@@ -94,6 +156,46 @@ ici.rr<-function(cases,patients,person_yrs){
 # Take a dataset of 4 columns. case and control for treatment A followed
 # case and control for treatment B
 
+#' Likelihood ratio meta-analysis for combining odds ratios in fixed
+#' and random effects meta-analyses.
+# Estimates 95\% traditional CIs and 95\% Intrinsic CIs of combined odds ratio.
+#'
+#' @param idata A dataframe of 4 columns for cases control pairs for treatments
+#' @param refval The reference value for the log of the alternate hypothesis
+#' @param num_iter The number of iterations or steps from the alternate hypothesis
+#' @param increm The quantity of increments of the refval upto the number of iterations
+#' @param method The meta-analytic method i.e. fixed or random effect method.
+#'
+#' @description Based on the method proposed by Dormuth et al, 2016,
+#' the function estimates traditional 95\% confidence intervals and intrinsic
+#' confidence intervals for combined effect estimates (OR) in meta-analysis.
+#'  It also returns an estimate of heterogeneity accross studies as well as
+#'  Isq statistics in random meta-analysis.
+#'
+#' @return Total_RE : A dataframe of total effect estimate from meta analysis,
+#'  the 95\% CIs and intrinsic CIs.
+#' @return  Tausq : Measure of heterogeneity between the studies used in the
+#' meta-analysis in random effect meta-analysis.
+#' @return Isq : The I^2 statistics
+#' @return meta_results : Dataframe effect estimates from all the studies,
+#'  the 95\% confidence limits and the 95\% intrinsic confidence limits.
+#'
+#'
+#' @references Dormuth, Colin R., Kristian B. Filion, and Robert W.
+#' Platt. "Likelihood ratio meta-analysis: New motivation and approach
+#' for an old method." Contemporary clinical trials 47 (2016): 259-265.
+#'
+#' @examples
+#' \dontrun{
+#' # statin potency and acute kidney injury data
+#' data("statindata")
+#' metalr_or(idata=statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method = "random")
+#' }
+#'
+#' @keywords Likelihood-ratio
+#' @keywords Meta-analysis
+#'
+#' @export
 metalr_or<-function(idata,refval,num_iter,increm,method="random"){
 
   if(class(idata) != "data.frame"){
@@ -274,7 +376,47 @@ metalr_or<-function(idata,refval,num_iter,increm,method="random"){
 # six columns: case.trt.A, case.trt.B, pers.time.trt.A, pers.time.trt.B,
 # patients.A, patients.B... see sampledataset
 
-
+#' Likelihood ratio meta-analysis for combining rate ratios in fixed
+#' and random effects meta-analyses.
+# Estimates 95\% traditional CIs and 95\% Intrinsic CIs of combined odds ratio.
+#'
+#' @param idata A dataframe of atleast 4 columns of: cases for treatment A, cases for
+#' treatment B, person time for treatment A and person time for treatment B.
+#' @param refval The reference value for the log of the alternate hypothesis
+#' @param num_iter The number of iterations or steps from the alternate hypothesis
+#' @param increm The quantity of increments of the refval upto the number of iterations
+#' @param method The meta-analytic method i.e. fixed or random effect method.
+#'
+#' @description Based on the method proposed by Dormuth et al, 2016,
+#' the function estimates traditional 95\% confidence intervals and intrinsic
+#' confidence intervals for combined effect estimates (RR) in meta-analysis.
+#'  It also returns an estimate of heterogeneity accross studies as well as
+#'  Isq statistics in random meta-analysis.
+#'
+#' @return Total_RE A dataframe of total effect estimate from meta analysis,
+#'  the 95\% CIs and intrinsic CIs.
+#' @return  Tausq Measure of heterogeneity between the studies used in the
+#' meta-analysis in random effect meta-analysis.
+#' @return Isq The I^2 statistics
+#' @return meta_results  Dataframe effect estimates from all the studies,
+#'  the 95\% confidence limits and the 95\% intrinsic confidence limits.
+#'
+#'
+#' @references Dormuth, Colin R., Kristian B. Filion, and Robert W.
+#' Platt. "Likelihood ratio meta-analysis: New motivation and approach
+#' for an old method." Contemporary clinical trials 47 (2016): 259-265.
+#'
+#' @examples
+#' \dontrun{
+#' Random dataset
+#' data("sample_metarr_data")
+#' metalr_rr(idata=sample_metarr_data,refval=0,num_iter=3000,increm=0.001,method = "random")
+#' }
+#'
+#' @keywords Likelihood-ratio
+#' @keywords Meta-analysis
+#'
+#' @export
 metalr_rr<-function(idata,refval,num_iter,increm,method="random"){
 
   # error and warning messages
@@ -452,15 +594,34 @@ metalr_rr<-function(idata,refval,num_iter,increm,method="random"){
 
 
 ##############################################
-
 # Adding a forrest plot option to the metalr object
-# if(class(data) != "matrix"){
-#   stop("You did not supply the data as a matrix. Please supply your data as a matrix.")
-# }
-#library(forestplot)
-#devtools::use_package("forestplot")
 
 
+#' Forest plot for likeliihood ratio based meta-analysis.
+# showing 95\% traditional CIs and 95\% Intrinsic CIs.
+#'
+#' @description The function plots confidence limits of traditional 95\% CIs
+#' and 95\% ICIs for the studies included in the meta-analysis as well as confidence bars
+#' associated with the overall effect estimates.
+#'
+#' @param metalr_obj An abject from the metalr functions metalr_or()
+#'  or metalr_rr(). The metalr object is a list of results computed
+#'   by the metalr functions which includes a dataframe of mle of the
+#'   effect estimates and their corresponding 95\% CIs and ICIs.
+#'   See the example below.
+#'
+#' @return Returns a forest plot of the 95\% CIs and 95\% ICIs.
+
+#' @examples
+#' \dontrun{
+#' data("statindata")  #statin potency and acute kidney injury dataset
+#' # the metalr object
+#' metalr_obj<-metalr_or(idata=statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method = "random")
+#' #forest plot of the metalr object
+#'forest_metalr(metalr_obj)
+#' }
+#'
+#' @export
 forest_metalr<-function(metalr_obj){
   metalr_obj_conf<-as.data.frame(metalr_obj$meta_result,row.names = NULL)
   row_names<-as.character(metalr_obj_conf$study)
