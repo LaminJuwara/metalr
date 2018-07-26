@@ -15,7 +15,7 @@ The `metalr` package provide functionalities estimating 95% CIs and 95%ICIs of r
 - `metalr_rr()`
 - `forest_metalr()`
 
-In the online vignette, accessable using `vignette("metalr")`, contains a detailed description of the functions. Examples of their usage are also presented.
+The vignette, accessable using `vignette("metalr")`, contains a detailed description of the functions. Examples of their usage are also presented.
 
 
 
