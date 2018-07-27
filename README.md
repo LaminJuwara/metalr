@@ -3,8 +3,8 @@
 `R` software package to estimate traditional 95% CIs and 95% intrinsic CIs based on the likelihood ratio meta-analytic approach proposed by [Dormuth et al., 2016](https://github.com/LaminJuwara/metalr/blob/master/man/documents/Dormuth2016.pdf). In the figure below, we present an example of a forest plot showing 95% CIs and 95% ICIs ( of odds ratio) in a random effect meta-analysis. The combined confidence limits of the 9 studies is also shown.
 
 <p align="center">
-![](man/figures/forest_metalr_eg.png)
-</p>
+![](man/figures/forest_metalr_eg.png) </p>
+
 
 
 ## Overview
