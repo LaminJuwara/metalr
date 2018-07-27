@@ -1,6 +1,6 @@
 # 'metalr': Likelihood ratio meta-analysis package
 
-`R` software package to estimate traditional 95% CIs and 95% intrinsic CIs based on the likelihood ratio meta-analytic approach proposed by [Dormuth et al., 2016](https://www.ncbi.nlm.nih.gov/pubmed/26837056). In the figure below, we present an example of a forest plot showing 95% CIs and 95% ICIs ( of odds ratio) in a random effect meta-analysis. The combined confidence limits of the 9 studies is also shown.
+`R` software package to estimate traditional 95% CIs and 95% intrinsic CIs based on the likelihood ratio meta-analytic approach proposed by [Dormuth et al., 2016](![](man/documents/Dormuth2016.pdf) ). In the figure below, we present an example of a forest plot showing 95% CIs and 95% ICIs ( of odds ratio) in a random effect meta-analysis. The combined confidence limits of the 9 studies is also shown.
 
 ![](man/figures/forest_metalr_eg.png)
 
@@ -36,4 +36,6 @@ devtools::install_github("laminjuwara/metalr")
 * Pull Requests: <https://github.com/cnodes/metalr/>
 
 
+## References
 
+1. Dormuth, Colin R., Kristian B. Filion, and Robert W. Platt. "Likelihood ratio meta-analysis: New motivation and approach for an old method." Contemporary clinical trials 47 (2016): 259-265.
