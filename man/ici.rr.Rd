@@ -14,7 +14,7 @@ ici.rr(cases, patients, person_yrs)
 \item{person_yrs}{The amount of time the patients were followed during the study}
 }
 \value{
-RR MLE : estimate of the rates ratio
+RR : MLE estimate of the rates ratio
 
 llci : Lower 95\% traditional confidence limit
 

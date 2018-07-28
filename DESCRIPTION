@@ -3,7 +3,7 @@ Type: Package
 Title: Likelihood ratio meta-analysis
 Version: 0.1.0
 Date: 2018-07-18
-Author: Lamin Juwara, Kristian Filion and Robert Platt
+Authors: Lamin Juwara, Kristian Filion and Robert Platt
 Maintainer: Lamin Juwara <lamin.juwara@mail.mcgill.ca>
 Description: Estimates traditional confidence intervals and intrinsic confidence intervals for combined effect estimates (eg rate ratio or odds ratio) in meta-analysis.
 License: GPL-3

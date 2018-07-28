@@ -84,7 +84,7 @@ ici.or<-function(idata){
 #' @param patients The total number of individuals in the study
 #' @param person_yrs The amount of time the patients were followed during the study
 #'
-#' @return RR MLE : estimate of the rates ratio
+#' @return RR : MLE estimate of the rates ratio
 #' @return llci : Lower 95\% traditional confidence limit
 #' @return ulci : Upper 95\% traditional confidence limit
 #' @return llici : Lower 95\% intrinsic confidence limit
