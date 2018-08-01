@@ -37,7 +37,7 @@ devtools::install_github("laminjuwara/metalr")
 
 ## Getting help
 
-* e-mail: <lamin@aims.ac.za>
+* e-mail: <Kristian.Filion@mcgill.ca>
 * Pull Requests: <https://github.com/cnodes/metalr/>
 
 
