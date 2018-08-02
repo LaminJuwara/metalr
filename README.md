@@ -3,7 +3,7 @@
 [![Travis-CI Build Status](https://travis-ci.org/LaminJuwara/metalr.svg?branch=master)](https://travis-ci.org/LaminJuwara/metalr)
 
 
-`R` software package to estimate traditional 95% CIs and 95% intrinsic CIs based on the likelihood ratio meta-analytic approach proposed by [Dormuth et al., 2016](https://github.com/LaminJuwara/metalr/blob/master/man/documents/Dormuth2016.pdf). In the figure below, we present an example of a forest plot showing 95% CIs and 95% ICIs ( of odds ratio) in a random effect meta-analysis. The combined confidence limits of the 9 studies is also shown.
+`R` software package to estimate traditional 95% confidence intervals (CIs) and 95% intrinsic confidence intervals (ICIs) based on the likelihood ratio meta-analytic approach proposed by [Dormuth et al., 2016](https://github.com/LaminJuwara/metalr/blob/master/man/documents/Dormuth2016.pdf). In the figure below, we present an example of a forest plot showing 95% CIs and 95% ICIs ( of odds ratio) in a random effect meta-analysis. Individual level effects and cofidence limits of the 9 studies included are shown along with the overall effect estimates.
 
 
 ![](man/figures/forest_metalr_eg.png) 
