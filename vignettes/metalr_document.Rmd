@@ -37,15 +37,15 @@ where $\log()$ denotes the natural logarithm scale and $\sigma^2$ corresponds to
 
 R software package to estimate traditional 95% CIs and 95% intrinsic CIs of effect estimates (rate ratio and odds ratio) in epidemiological studies. The package includes the following functions
 
-1. **The ici.rr() Function**: estimating intrinsic confidence interval for rate ratio.
+1. **The ici.rr() Function**: estimates 95% intrinsic confidence interval for rate ratio.
 
-2. **The ici.or() Function**: estimating intrinsic confidence interval for odds ratio.
+2. **The ici.or() Function**: estimates 95% intrinsic confidence interval for odds ratio.
 
-3. **The metalr_or() Function**: estimating total effect estimates (odds ratio) and corresponding intrinsic confidence intervals  in fixed effect and random effect meta-analysis.
+3. **The metalr_or() Function**: estimates total effect estimates (MLE of combined odds ratio), the 95% CI and 95% intrinsic CI in fixed effect and random effect meta-analysis. Individual study effect estimates and their corresponding CIs are also estimated.
 
-4. **The metalr_rr() Function**: estimating total effect estimates (rate ratio) and corresponding intrinsic confidence intervals  in fixed effect and random effect meta-analysis.
+4. **The metalr_rr() Function**: estimates total effect estimates (MLE of combined rate ratio), the 95% CI and 95% intrinsic CI in fixed effect and random effect meta-analysis. Individual level study effect estimates and their corresponding CIs are also estimated.
 
-5. **The forest_metalr() Function**: returns a forest plot of the likelihood ratio meta-analysis results. The plot compares the 95% tranditional CIs and 95% Intrinsic CIs.
+5. **The forest_metalr() Function**: returns a forest plot of the likelihood ratio meta-analysis results. The plot compares the 95% tranditional CIs and 95% Intrinsic CIs the effect estimates in a meta-analysis.
 
 
 
