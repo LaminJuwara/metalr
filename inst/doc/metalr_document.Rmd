@@ -51,23 +51,23 @@ R software package to estimate traditional 95% CIs and 95% intrinsic CIs of effe
 
 ## Installation
 
-You can install the development version from Github with:
+The development version of the `metalr` Package can be installed on [GitHub](https://github.com/LaminJuwara/metalr) using:
 
 ```{r, fig.show='hold'}
-library(devtools)
+if (!require("devtools"))install.packages("devtools")
 devtools::install_github("laminjuwara/metalr")
 ```
 
 
 ## Example 1: CAPRIE trial
 
-We consider the randomized control trial (RCT) of clopidogrel vs Aspirin in patients at risk of ischaemic events designed to assess the relative efficacy of clopidogrel (75mg once daily) to that of aspirin (325mg once daily) in reducing the risk of ischemic stroke, MI or vascular death.
+We consider the randomized control trial (RCT) of clopidogrel vs Aspirin in patients at risk of ischaemic events designed to assess the relative efficacy of clopidogrel (75mg once daily) to that of aspirin (325mg once daily) in reducing the risk of ischemic stroke, MI or vascular death [1].
 
 The study population includes a total of 9599 clopidogrel and 9586 aspirin patients were followed for 1 to 3 years (mean follow-up = 1.91 years), 939 primary outcome events in clopidogrel patients who were followed for a total of 17,636 person-years and 1021 events in aspirin patients followed for a total of 17,519 person-years. The data is compiled below.
 
 
 ```{r, fig.show='hold'}
-# Clopidogrel vs Aspirin trial
+# Clopidogrel vs Aspirin trial dataset
 cases<-c(939,1021)
 person_yrs<-c(17636,17519)
 patients<-c(9599,9586)   
@@ -75,19 +75,20 @@ patients<-c(9599,9586)
 
 ### The ici.rr() Function 
 
-The **ici.rr()** function calculates rate ratios and corresponding intrinsic confidence intervals in epidemiological studies. The functions provides both the traditional confidence interval and intrinsic confidence limits. This allows us to compare the two confidence limits. For example, using the dataset from caprie trial, we obtain
+The **ici.rr()** function calculates rate ratios and corresponding 95% intrinsic confidence intervals in epidemiological studies. The functions provides both the traditional confidence interval and intrinsic confidence limits. This allows us to compare the two confidence limits. For example, using the dataset from caprie trial, we obtain
 
 ```{r, fig.show='hold'}
 library(metalr)
 ici.rr(cases = cases,patients = patients,person_yrs = person_yrs)
 ```
-The mle of the rate ratio is 0.914, the 95% confidence limit is (0.837,0.998) and the 95% intrinsic confidence limit is (0.819,1.020).
+The MLE of the rate ratio is 0.914, the 95% confidence limit is (0.837,0.998) and the 95% intrinsic confidence limit is (0.819,1.020).
 
 ### The metalr_rr() Function
 
-The metalr_rr() estimates total meta-analytic rate ratios and corresponding rate ratio. It allows fixed effect or random effect meta-analysis and outputs the 95% traditional confidence limits, intrinsic confidence limits and mle of the effect estimate. Further, it gives estimates a measure of heterogeneity between studies in random effect meta-analysis and $I^2$ statistics estimate.
+The `metalr_rr()` estimates total meta-analytic rate ratios and corresponding rate ratio. It allows fixed effect or random effect meta-analysis and outputs the 95% traditional confidence limits, intrinsic confidence limits and MLE of the effect estimate. Further, it gives estimates a measure of heterogeneity between studies in random effect meta-analysis (i.e. $\tau^2$ and the $\text{I}^2$ statistics).
 
-We use the toy data example provided along with the package (sample_metarr_data). That is
+
+We use the toy data example provided along with the package (`sample_metarr_data`). That is
 
 ```{r, fig.show='hold'}
 library(metalr)
@@ -100,7 +101,7 @@ In order to determine the total rate ratio effect in the above toy example, we h
 ```{r, fig.show='hold'}
 metalr_rr(sample_metarr_data,refval=0,num_iter=3000,increm=0.001,method="random")
 ```
-The same effect estimates are obtained for individual studies and a combined total random effect estimates is also obtained. For the estimated heterogeneity index $\tau^2 = 0.0824$, we estimate the mle of the total effect as 0.744 with the corresponding intrinsic limits (0.450,1.230).
+The same effect estimates are obtained for individual studies and a combined total random effect estimates is also obtained. For the estimated heterogeneity index $\tau^2 = 0.0824$, we estimate the MLE of the total effect as 0.744 with the corresponding intrinsic limits (0.450,1.230).
 
 ## Example 2: statin potency and acute kidney injury
 
@@ -112,37 +113,37 @@ data("statindata")
 statindata
 ```
 
-We can used the functions **ici.or()** and **metalr_or()** in the 'metalr' package to estimate intrinsic confidence limits for odds ratio from individual studies and compute to effect estimates from meta-analysis respectively. To demonstate usage of the functions, we have
+We can used the functions `ici.or()` and `metalr_or()` in the `metalr` package to estimate 95% intrinsic confidence limits for odds ratio from individual studies and combined (or individual study) effect estimates from meta-analysis respectively. To demonstate applications of the functions, we have
 
 ### The ici.or() Function 
 
-The **ici.or()** function calculates odds ratio and corresponding intrinsic confidence intervals in observational studies. The functions provides both the traditional confidence interval and intrinsic confidence limits. For example, the estimates obtained from QC is presented.
+The `ici.or()` function calculates odds ratio and corresponding 95% intrinsic confidence intervals in observational studies. The functions provides both the traditional confidence interval and intrinsic confidence limits. For example, the estimates obtained from QC (study 6)is presented.
 
 ```{r, fig.show='hold'}
 ici.or(idata = statindata[6,2:5])
 ```
-The mle of the odds ratio is 1.232, the 95% confidence limit is (1.099,1.380) and the 95% intrinsic confidence limit is (1.069,1.419).
+The MLE of the odds ratio is 1.232, the 95% confidence limit is (1.099,1.380) and the 95% intrinsic confidence limit is (1.069,1.419).
 
 ### The metalr_or() Function
 
-The metalr_or() estimates total effects (odds ratio) from fixed or random effect meta-analysis as well as the corresponding intrinsic confidence limits. It also computes the 95% traditional confidence limits and the mle of the effect estimate. Further, it gives estimates a measure of heterogeneity between studies in random effect meta-analysis and $I^2$ statistics estimate.
+The `metalr_or()` estimates total effects (odds ratio) from fixed or random effect meta-analysis as well as the corresponding intrinsic confidence limits. It also computes the 95% traditional confidence limits and the MLE of the effect estimate. Further, it gives estimates a measure of heterogeneity between studies in random effect meta-analysis ($\tau^2$ and $\text{I}^2$ statistics estimates).
 
 
-Below, we use the statin and aki dataset to compute total fixed effect meta-analysis estimates.
+Below, we use the 'statin and aki dataset' to compute total fixed effect meta-analysis estimates.
 
 ```{r, fig.show='hold'}
 metalr_or(statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method="fixed")
 ```
 
-Similarly, total random effects could be estimated as shown with the metalr_or() function. We note that in both icc.or() and metalr_or() functions, the input dataframe is required to have 4 columns (excluding the study) as shown in the statin dataset above.
+Similarly, total random effects could be estimated as shown with the `metalr_or()` function. We note that in both `icc.or()` and `metalr_or()` functions, the input dataframe is required to have 4 columns (not including the study name) as shown in the statin dataset above.
 
 ### The forest_metalr() Function
 
-The forest_metalr() plots 95% CIs and ICIs for odds ratios or ratios from a likelihood ratio meta-analysis object. Thus, we can compare confidence limits of individuals studies as well as that of their combined effects to corresponding intrinsic confidence limits.
+The `forest_metalr()` function plots 95% CIs and ICIs for odds ratios or ratios from a likelihood ratio meta-analysis object. Thus, we can compare traditional 95% confidence limits of individuals studies and total/combined effect estimates to their corresponding 95% intrinsic confidence limits.
 
-Below, we use the statin and aki dataset to plot the confidence limits obtained in the meta_or() analysis above
+Below, we use the 'statin and aki dataset' to plot the confidence limits obtained from the `meta_or()` function above
 
-```{r, fig.show='hold',fig.align="center",fig.height=3.2, fig.width=5.5}
+```{r, fig.show='hold',fig.align="center",fig.height=3.5, fig.width=5.5}
 # the metalr object
 library(metalr)
 metalr_obj<-metalr_or(idata=statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method = "random")
@@ -155,3 +156,4 @@ forest_metalr(metalr_obj)
 ## Reference
 
 1. Dormuth, Colin R., Kristian B. Filion, and Robert W. Platt. "Likelihood ratio meta-analysis: New motivation and approach for an old method." Contemporary clinical trials 47 (2016): 259-265.
+

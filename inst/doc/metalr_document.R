@@ -5,11 +5,11 @@ knitr::opts_chunk$set(
 )
 
 ## ---- fig.show='hold'----------------------------------------------------
-library(devtools)
+if (!require("devtools"))install.packages("devtools")
 devtools::install_github("laminjuwara/metalr")
 
 ## ---- fig.show='hold'----------------------------------------------------
-# Clopidogrel vs Aspirin trial
+# Clopidogrel vs Aspirin trial dataset
 cases<-c(939,1021)
 person_yrs<-c(17636,17519)
 patients<-c(9599,9586)   
@@ -37,7 +37,7 @@ ici.or(idata = statindata[6,2:5])
 ## ---- fig.show='hold'----------------------------------------------------
 metalr_or(statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method="fixed")
 
-## ---- fig.show='hold',fig.align="center",fig.height=3.2, fig.width=5.5----
+## ---- fig.show='hold',fig.align="center",fig.height=3.5, fig.width=5.5----
 # the metalr object
 library(metalr)
 metalr_obj<-metalr_or(idata=statindata[,2:5],refval=0,num_iter=3000,increm=0.001,method = "random")
