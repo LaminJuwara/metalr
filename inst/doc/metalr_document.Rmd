@@ -2,6 +2,9 @@
 title: <center> <h4 style="font-style:normal"> Package 'metalr'</h4> </center>
 #author: "Lamin Juwara"
 date: <center>`r Sys.Date()`</center>
+# output:
+#   md_document:
+#     variant: markdown_github
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
