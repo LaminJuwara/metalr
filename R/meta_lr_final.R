@@ -642,7 +642,7 @@ forest_metalr<-function(metalr_obj){
                             zero=1, cex=0.9, lineheight = "auto", boxsize=0.2, colgap=grid::unit(3,"mm"),
                             lwd.ci=2, ci.vertices=TRUE, ci.vertices.height = 0.2,lty.ci = c(1, 2),
                             xlab = "Effect Estimate",  clip =c(-1.125, 3.75),
-                            title = "LRMA meta-analysis. \n Solid bars denote 95% CIs and dashed bars denote 95% ICIs")
+                            title = "Likelihood ratio meta-analysis. \n Solid bars denote 95% CIs and dashed bars denote 95% ICIs")
   return(metalr_plot)
 }
 
